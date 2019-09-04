@@ -11,7 +11,6 @@ function App() {
 
   return (
     <Router>
-        <div>
           <Navbar
             bg="dark"
             variant="dark"
@@ -29,11 +28,11 @@ function App() {
                 </NavLink>
               </Nav>
             </Navbar.Collapse>
-            <NavLink
+            <Nav
               onClick={() => dispatch({type: 'Logout'})}
               className="navButton">
                 Logout
-            </NavLink>
+            </Nav>
           </Navbar>
           {user.id == null &&
             <Route exact path="/" component = {Login}/>
@@ -41,7 +40,6 @@ function App() {
           {user.id != null &&
             <Route exact path="/" component = {Dash}/>
           }
-        </div>
       </Router>
   );
 }

@@ -4,7 +4,6 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import cookie from 'react-cookies'
 import { StateProvider } from './state/statecontext'
 
@@ -17,7 +16,8 @@ const initialState = {
             { id: 'npif0v8d', project: 'Oxygen Production', type: 'Labor', description: 'Arranging Oxygen-Producing plants to optimal locations based on dynamic key factors'},
             { id: 'qmv7d99u', project: 'Oxygen Production', type: 'Research', description: 'Experimental Gene Editing'},
             { id: '0okdm25n', project: 'Oxygen Production', type: 'Clerical', description: 'Documentation of Oxygen Production levels and key factors'},
-        ]
+        ],
+    isAddTrackingOpen: false
 }
 
 const reducer = (state, action) => {
@@ -40,6 +40,32 @@ const reducer = (state, action) => {
                     ...state.user,
                     id: undefined
                 }
+            }
+        case 'OpenAddTrackingCode':
+            switch (action.switch) {
+                case 'On':
+                    return {
+                        ...state,
+                        isAddTrackingOpen: true
+                    }
+                case 'Off':
+                    return {
+                        ...state,
+                        isAddTrackingOpen: false
+                    }
+                default:
+                    return state
+            }
+        case 'AddTrackingCode':
+            state.codes.push({
+                id: action.id,
+                project: action.project,
+                type: action.codetype,
+                description: action.description
+            })
+            return {
+                ...state,
+                isAddTrackingOpen: false
             }
         default:
         return state
