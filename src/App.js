@@ -29,7 +29,7 @@ function App() {
               </Nav>
             </Navbar.Collapse>
             <Nav
-              onClick={() => dispatch({type: 'Logout'})}
+              onClick={() => dispatch({module: "Auth", operation: 'Logout'})}
               className="navButton">
                 Logout
             </Nav>

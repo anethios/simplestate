@@ -4,7 +4,7 @@ import { useGlobalState } from '../state/statecontext'
 import { Container, Row, Col, Card, Form} from 'react-bootstrap'
 
 export function Login(){
-    const [{user}, dispatch] = useGlobalState()
+    const [,dispatch] = useGlobalState()
     return(
         <Container>
             <br/>
@@ -21,7 +21,7 @@ export function Login(){
                             <Form.Group>
                                 <Form.Control type="password" placeholder="Password" />
                                 <br/>
-                                <Button block variant="primary" onClick={() => dispatch({type: "addUser"})}> Login </Button>
+                                <Button block variant="primary" onClick={() => dispatch({module: "Auth", operation: "Login"})}> Login </Button>
                                 <Form.Text> No Email/Password Required</Form.Text>
                             </Form.Group>
                         </Card.Body>

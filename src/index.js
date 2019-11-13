@@ -4,10 +4,10 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import cookie from 'react-cookies'
-import { StateProvider } from './state/statecontext'
-
-var uniqid = require('uniqid');
+import cookie from 'react-cookies';
+import { StateProvider } from './state/statecontext';
+import { codes } from './store/codes';
+import { authentication } from './store/authentication'
 
 const initialState = {
     user: { id: cookie.load('userId'), second: 'test'},
@@ -20,59 +20,16 @@ const initialState = {
     isAddTrackingOpen: false
 }
 
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'addUser':
-            var nextId = uniqid()
-            cookie.save('userId', nextId)
-            return {
-                ...state, 
-                user: {
-                    ...state.user,
-                    id: nextId
-                }
-            }
-        case 'Logout':
-            cookie.remove('userId')
-            return {
-                ...state,
-                user: {
-                    ...state.user,
-                    id: undefined
-                }
-            }
-        case 'OpenAddTrackingCode':
-            switch (action.switch) {
-                case 'On':
-                    return {
-                        ...state,
-                        isAddTrackingOpen: true
-                    }
-                case 'Off':
-                    return {
-                        ...state,
-                        isAddTrackingOpen: false
-                    }
-                default:
-                    return state
-            }
-        case 'AddTrackingCode':
-            state.codes.push({
-                id: action.id,
-                project: action.project,
-                type: action.codetype,
-                description: action.description
-            })
-            return {
-                ...state,
-                isAddTrackingOpen: false
-            }
-        default:
-        return state
-    }
+const reducerSwitch = {
+    "Codes": codes,
+    "Auth": authentication
 }
 
-ReactDOM.render(<StateProvider initialState={initialState} reducer={reducer}><App /></StateProvider>, document.getElementById('root'));
+const reducers = (state, action) => {
+    return reducerSwitch[action.module](state, action)
+}
+
+ReactDOM.render(<StateProvider initialState={initialState} reducer={reducers}><App /></StateProvider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

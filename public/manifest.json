@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Simple State",
+  "name": "React Hooks Sample",
   "icons": [
     {
       "src": "favicon.ico",

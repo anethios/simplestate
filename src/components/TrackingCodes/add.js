@@ -3,9 +3,9 @@ import {Card, Row, Col, Form} from 'react-bootstrap'
 import { useGlobalState } from '../../state/statecontext'
 
 export function AddTracking(){
-    const uniqid = require('uniqid');
-    const [{isAddTrackingOpen}, dispatch] = useGlobalState()
-    const [{codes}] = useGlobalState()
+    const uniqid = require('uniqid'); //Used to generate new IDs for entries
+    const [{isAddTrackingOpen}, dispatch] = useGlobalState() //dispatch only needs to be referenced once
+    const [{codes}] = useGlobalState() //Using a specific object from global state is much easier than calling the entire state
     const center = {
         textAlign: 'center'
     }
@@ -20,7 +20,7 @@ export function AddTracking(){
                         <Col
                         style={center}
                         md={{span:1, offset:11}}>
-                            <i onClick={() => dispatch({type: "OpenAddTrackingCode", switch: "On"})} className="material-icons addButton">add_circle_outline</i>
+                            <i onClick={() => dispatch({module: "Codes", operation: "Toggle", switch: "On"})} className="material-icons addButton">add_circle_outline</i>
                         </Col>
                     </Row>
                 </Card.Header>
@@ -32,7 +32,7 @@ export function AddTracking(){
                         <Col 
                         style={center}
                         md={{span:1, offset:11}}>
-                            <i className="material-icons closeButton" onClick={() => dispatch({type: "OpenAddTrackingCode", switch: "Off"})}>clear</i>
+                            <i className="material-icons closeButton" onClick={() => dispatch({module: "Codes", operation: "Toggle", switch: "Off"})}>clear</i>
                         </Col>
                     </Row>
                 </Card.Header>
@@ -92,7 +92,8 @@ export function AddTracking(){
                             className="material-icons doneButton" 
                             onClick={
                                 () => dispatch({
-                                    type: 'AddTrackingCode',
+                                    module: 'Codes',
+                                    operation: "Add",
                                     id: document.getElementById('cid').value, 
                                     project: document.getElementById('project').value, 
                                     codetype: document.getElementById('type').value, 
